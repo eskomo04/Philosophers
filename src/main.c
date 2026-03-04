@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 04:37:22 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/04 05:22:52 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/04 06:34:43 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 int	main(int argc, char **argv)
 {
-	t_philo	philo;
+	t_philo	*philo;
+	t_data	data;
+	t_fork	*forks;
 
-	if (argc == 5)
+	if (argc == 6)
 	{
-		philo.data->num_of_philos = ft_atoi(argv[1]);
-		philo.data->time_to_die = ft_atoi(argv[2]);
-		philo.data->time_to_eat = ft_atoi(argv[3]);
-		philo.data->time_to_sleep = ft_atoi(argv[4]);
-		philo.data->num_of_times_to_eat = ft_atoi(argv[5]);
+		philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
+		forks = malloc(sizeof(t_fork) * ft_atoi(argv[1]));
+		init_data(&data, argv);
+		init_forks(forks, ft_atoi(argv[1]));
+		init_philo(philo, &data, forks);
 	}
 }
