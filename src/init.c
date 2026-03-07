@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 06:25:54 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/06 01:08:10 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/07 01:50:44 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ void	init_forks(t_fork *forks, int num_of_forks)
 	while (i < num_of_forks)
 	{
 		forks[i].fork_id = i + 1;
+		pthread_mutex_init(&forks[i].fork_mutex, NULL);
 		i++;
 	}
 }
 
-/**
- * Init the philosopher structure with the data structure
- * and assign philosopher id
- */
 void	init_philo(t_philo *philo, t_data *data, t_fork *forks)
 {
 	int	i;
@@ -41,13 +38,11 @@ void	init_philo(t_philo *philo, t_data *data, t_fork *forks)
 		philo[i].left_fork = &forks[i];
 		philo[i].right_fork = &forks[(i - 1 + data->num_of_philos)
 			% data->num_of_philos];
+		pthread_create(&philo[i].thread_id, NULL, thread_function, NULL);
 		i++;
 	}
 }
 
-/**
- * Init the data structure with the command line arguments
- */
 void	init_data(t_data *data, char **arg)
 {
 	data->num_of_philos = ft_atoi(arg[1]);
@@ -55,4 +50,5 @@ void	init_data(t_data *data, char **arg)
 	data->time_to_eat = ft_atoi(arg[3]);
 	data->time_to_sleep = ft_atoi(arg[4]);
 	data->num_of_times_to_eat = ft_atoi(arg[5]);
+	data->someone_died = false;
 }
