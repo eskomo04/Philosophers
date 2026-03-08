@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 02:12:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/08 07:21:40 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/08 08:34:33 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,5 @@ void				init_data(t_data *data, char **arg);
 
 // thread.c
 void				*thread_function(void *arg);
-// fork_maintain.c
-void				evan_right_fork_first(t_philo *philo);
-void				odd_left_fork_first(t_philo *philo);
 
 #endif
