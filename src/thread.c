@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 02:33:41 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/08 06:40:37 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/08 07:22:00 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 static void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->left_fork->fork_mutex);
-	printf("Philosopher %d has taken left fork %d\n", philo->philo_id,
-		philo->left_fork->fork_id);
-	pthread_mutex_lock(&philo->right_fork->fork_mutex);
-	printf("Philosopher %d has taken right fork %d\n", philo->philo_id,
-		philo->right_fork->fork_id);
+	if (philo->philo_id % 2 == 0)
+		evan_right_fork_first(philo);
+	else
+		odd_left_fork_first(philo);
 	usleep(philo->data->time_to_eat * 1000);
 	philo->last_meal = ft_get_time();
 	philo->meals++;
