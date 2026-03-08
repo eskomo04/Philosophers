@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 02:12:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/06 02:42:17 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/07 02:51:44 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_data
 {
-	int				time_to_think;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				num_of_times_to_eat;
-	int				num_of_philos;
+	long			time_to_think;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	long			num_of_times_to_eat;
+	long			num_of_philos;
 	bool			someone_died;
 }					t_data;
 
@@ -38,7 +40,7 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int				philo_id;
-	int				last_meal;
+	long			last_meal;
 	int				meals;
 	pthread_t		thread_id;
 	t_fork			*left_fork;

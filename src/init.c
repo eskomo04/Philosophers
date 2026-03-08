@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 06:25:54 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/07 01:50:44 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/08 06:19:34 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	init_philo(t_philo *philo, t_data *data, t_fork *forks)
 		philo[i].left_fork = &forks[i];
 		philo[i].right_fork = &forks[(i - 1 + data->num_of_philos)
 			% data->num_of_philos];
-		pthread_create(&philo[i].thread_id, NULL, thread_function, NULL);
+		philo[i].last_meal = 0;
+		pthread_create(&philo[i].thread_id, NULL, thread_function, &philo[i]);
 		i++;
 	}
 }
