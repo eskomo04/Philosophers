@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 04:42:36 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/06 02:45:55 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/08 06:35:52 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,12 @@ int	ft_atoi(char *s)
 		s++;
 	}
 	return (result * sign);
+}
+
+long long	ft_get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }

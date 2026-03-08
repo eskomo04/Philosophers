@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 02:12:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/07 02:51:44 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/08 06:36:00 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_philo
 
 // utilis.c
 int					ft_atoi(char *s);
+long long			ft_get_time(void);
 // init.c
 void				init_forks(t_fork *forks, int num_of_forks);
 void				init_philo(t_philo *philo, t_data *data, t_fork *forks);

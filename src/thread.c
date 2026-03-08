@@ -6,24 +6,20 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 02:33:41 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/08 06:12:27 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/08 06:40:37 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Philo.h"
 
-static long long	ft_get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
 static void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
+	printf("Philosopher %d has taken left fork %d\n", philo->philo_id,
+		philo->left_fork->fork_id);
 	pthread_mutex_lock(&philo->right_fork->fork_mutex);
+	printf("Philosopher %d has taken right fork %d\n", philo->philo_id,
+		philo->right_fork->fork_id);
 	usleep(philo->data->time_to_eat * 1000);
 	philo->last_meal = ft_get_time();
 	philo->meals++;
