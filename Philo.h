@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 02:12:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/08 08:34:33 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/09 03:32:17 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_data
 	long			time_to_sleep;
 	long			num_of_times_to_eat;
 	long			num_of_philos;
-	bool			someone_died;
 }					t_data;
 
 typedef struct s_fork
@@ -50,6 +49,10 @@ typedef struct s_philo
 
 /*******************FILES FUNCTION******************* */
 
+
+// main.c
+void				monitoring(t_philo *philo);
+void				*monitor_function(void *philo);
 // utilis.c
 int					ft_atoi(char *s);
 long long			ft_get_time(void);

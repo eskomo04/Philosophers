@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 04:37:22 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/07 01:43:25 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/09 03:44:17 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,39 @@ int	main(int argc, char **argv)
 		init_philo(philo, &data, forks);
 		while (i < data.num_of_philos)
 			pthread_join(philo[i++].thread_id, NULL);
+		monitoring(philo);
 		destroy_mutexes(forks, data.num_of_philos);
 		free(philo);
 		free(forks);
 	}
 	else
 		printf("Error: Wrong number of arguments\n");
+}
+
+void	monitoring(t_philo *philo)
+{
+	pthread_t	monitor_thread;
+
+	pthread_create(&monitor_thread, NULL, monitor_function, philo);
+	pthread_join(monitor_thread, NULL);
+}
+
+void	*monitor_function(void *philo)
+{
+	t_philo	*philos;
+	int		i;
+
+	philos = (t_philo *)philo;
+	i = 0;
+	while (1)
+	{
+		if (ft_get_time()
+			- philos[i].last_meal > philos->data->time_to_die)
+		{
+			printf("Philosopher %d died\n", philos[i].philo_id);
+			break ;
+		}
+		i++;
+	}
+	exit(0);
 }

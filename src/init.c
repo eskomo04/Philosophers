@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 06:25:54 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/08 06:36:20 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/09 03:20:36 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,4 @@ void	init_data(t_data *data, char **arg)
 	data->time_to_eat = ft_atoi(arg[3]);
 	data->time_to_sleep = ft_atoi(arg[4]);
 	data->num_of_times_to_eat = ft_atoi(arg[5]);
-	data->someone_died = false;
 }
