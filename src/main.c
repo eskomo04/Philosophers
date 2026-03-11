@@ -32,6 +32,11 @@ int	main(int argc, char **argv)
 	int		i;
 
 	i = 0;
+	// if (argc > 6 || argc < 5 || ft_atoi(argv[1]) <= 0)
+	// {
+	// 	printf("Error: Wrong number of arguments\n");
+	// 	return (1);
+	// }
 	if (argc == 6)
 	{
 		philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
@@ -39,9 +44,9 @@ int	main(int argc, char **argv)
 		init_data(&data, argv);
 		init_forks(forks, ft_atoi(argv[1]));
 		init_philo(philo, &data, forks);
+		monitoring(philo);
 		while (i < data.num_of_philos)
 			pthread_join(philo[i++].thread_id, NULL);
-		monitoring(philo);
 		destroy_mutexes(forks, data.num_of_philos);
 		free(philo);
 		free(forks);
@@ -67,10 +72,12 @@ void	*monitor_function(void *philo)
 	i = 0;
 	while (1)
 	{
+		if (i > philos->data->num_of_philos - 1)
+			i = 0;
 		if (ft_get_time()
 			- philos[i].last_meal > philos->data->time_to_die)
 		{
-			printf("Philosopher %d died\n", philos[i].philo_id);
+			printf("%lld %d died\n", ft_time_ms(philos), philos[i].philo_id);
 			break ;
 		}
 		i++;

@@ -28,6 +28,7 @@ typedef struct s_data
 	long			time_to_sleep;
 	long			num_of_times_to_eat;
 	long			num_of_philos;
+	long long		start_time;
 }					t_data;
 
 typedef struct s_fork
@@ -56,6 +57,7 @@ void				*monitor_function(void *philo);
 // utilis.c
 int					ft_atoi(char *s);
 long long			ft_get_time(void);
+long long			ft_time_ms(t_philo *philo);
 // init.c
 void				init_forks(t_fork *forks, int num_of_forks);
 void				init_philo(t_philo *philo, t_data *data, t_fork *forks);

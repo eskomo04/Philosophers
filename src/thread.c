@@ -14,28 +14,28 @@
 
 static void	sleep_philo(t_philo *philo)
 {
-	printf("Philosopher %d is sleeping\n", philo->philo_id);
+	printf("%lld %d is sleeping\n", ft_time_ms(philo), philo->philo_id);
 	usleep(philo->data->time_to_sleep * 1000);
 }
 
 static void	evan_right_fork_first(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->right_fork->fork_mutex);
-	printf("Philosopher %d has taken right fork %d\n", philo->philo_id,
-		philo->right_fork->fork_id);
+	//printf("Philosopher %d has taken right fork %d\n", philo->philo_id,
+		//philo->right_fork->fork_id);
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
-	printf("Philosopher %d has taken left fork %d\n", philo->philo_id,
-		philo->left_fork->fork_id);
+	//printf("Philosopher %d has taken left fork %d\n", philo->philo_id,
+		//philo->left_fork->fork_id);
 }
 
 static void	odd_left_fork_first(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
-	printf("Philosopher %d has taken left fork %d\n", philo->philo_id,
-		philo->left_fork->fork_id);
+	//printf("Philosopher %d has taken left fork %d\n", philo->philo_id,
+		//philo->left_fork->fork_id);
 	pthread_mutex_lock(&philo->right_fork->fork_mutex);
-	printf("Philosopher %d has taken right fork %d\n", philo->philo_id,
-		philo->right_fork->fork_id);
+	//printf("Philosopher %d has taken right fork %d\n", philo->philo_id,
+		//philo->right_fork->fork_id);
 }
 
 static void	eat(t_philo *philo)
@@ -47,7 +47,7 @@ static void	eat(t_philo *philo)
 	philo->last_meal = ft_get_time();
 	philo->meals++;
 	usleep(philo->data->time_to_eat * 1000);
-	printf("Philosopher %d is eating\n", philo->philo_id);
+	printf("%lld %d is eating\n", ft_time_ms(philo), philo->philo_id);
 	pthread_mutex_unlock(&philo->left_fork->fork_mutex);
 	pthread_mutex_unlock(&philo->right_fork->fork_mutex);
 }

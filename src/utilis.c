@@ -42,10 +42,20 @@ int	ft_atoi(char *s)
 	return (result * sign);
 }
 
+
 long long	ft_get_time(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+// Get the current time in milliseconds
+long long	ft_time_ms(t_philo *philo)
+{
+	long long time_ms;
+
+	time_ms = ft_get_time() - philo->data->start_time;
+	return (time_ms);
 }

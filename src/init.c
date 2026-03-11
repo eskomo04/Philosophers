@@ -46,6 +46,7 @@ void	init_philo(t_philo *philo, t_data *data, t_fork *forks)
 
 void	init_data(t_data *data, char **arg)
 {
+	data->start_time = ft_get_time();
 	data->num_of_philos = ft_atoi(arg[1]);
 	data->time_to_die = ft_atoi(arg[2]);
 	data->time_to_eat = ft_atoi(arg[3]);
