@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2026/03/04 04:37:22 by eskomo            #+#    #+#             */
 /*   Updated: 2026/03/09 03:44:17 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Philo.h"
+
 
 static void	destroy_mutexes(t_fork *forks, int num_of_forks)
 {
@@ -32,27 +36,23 @@ int	main(int argc, char **argv)
 	int		i;
 
 	i = 0;
-	// if (argc > 6 || argc < 5 || ft_atoi(argv[1]) <= 0)
-	// {
-	// 	printf("Error: Wrong number of arguments\n");
-	// 	return (1);
-	// }
-	if (argc == 6)
+	if (argc > 6 || argc < 5 || ft_atoi(argv[1]) <= 0)
 	{
-		philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
-		forks = malloc(sizeof(t_fork) * ft_atoi(argv[1]));
-		init_data(&data, argv);
-		init_forks(forks, ft_atoi(argv[1]));
-		init_philo(philo, &data, forks);
-		monitoring(philo);
-		while (i < data.num_of_philos)
-			pthread_join(philo[i++].thread_id, NULL);
-		destroy_mutexes(forks, data.num_of_philos);
-		free(philo);
-		free(forks);
-	}
-	else
 		printf("Error: Wrong number of arguments\n");
+		return (1);
+	}
+	philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
+	forks = malloc(sizeof(t_fork) * ft_atoi(argv[1]));
+	init_data(&data, argv);
+	init_forks(forks, ft_atoi(argv[1]));
+	init_philo(philo, &data, forks);
+	monitoring(philo);
+	while (i < data.num_of_philos)
+		pthread_join(philo[i++].thread_id, NULL);
+	destroy_mutexes(forks, data.num_of_philos);
+	free(philo);
+	free(forks);
+	return (0);
 }
 
 void	monitoring(t_philo *philo)
@@ -74,13 +74,15 @@ void	*monitor_function(void *philo)
 	{
 		if (i > philos->data->num_of_philos - 1)
 			i = 0;
-		if (ft_get_time()
-			- philos[i].last_meal > philos->data->time_to_die)
+		if (ft_get_time() - philos[i].last_meal > philos->data->time_to_die)
 		{
 			printf("%lld %d died\n", ft_time_ms(philos), philos[i].philo_id);
+			pthread_mutex_lock(&philos->data->death.death_mutex);
+			philos->data->death.someone_died = true;
+			pthread_mutex_unlock(&philos->data->death.death_mutex);
 			break ;
 		}
 		i++;
 	}
-	exit(0);
+	return (NULL);
 }

@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2026/03/04 06:25:54 by eskomo            #+#    #+#             */
 /*   Updated: 2026/03/09 03:20:36 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Philo.h"
+
 
 void	init_forks(t_fork *forks, int num_of_forks)
 {
@@ -51,5 +55,10 @@ void	init_data(t_data *data, char **arg)
 	data->time_to_die = ft_atoi(arg[2]);
 	data->time_to_eat = ft_atoi(arg[3]);
 	data->time_to_sleep = ft_atoi(arg[4]);
-	data->num_of_times_to_eat = ft_atoi(arg[5]);
+	if (arg[5])
+		data->num_of_times_to_eat = ft_atoi(arg[5]);
+	else
+		data->num_of_times_to_eat = -1;
+	pthread_mutex_init(&data->death.death_mutex, NULL);
+	data->death.someone_died = false;
 }

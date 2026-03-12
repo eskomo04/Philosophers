@@ -20,6 +20,12 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+typedef struct s_died
+{
+	pthread_mutex_t	death_mutex;
+	bool			someone_died;
+}			t_died;
+
 typedef struct s_data
 {
 	long			time_to_think;
@@ -29,6 +35,7 @@ typedef struct s_data
 	long			num_of_times_to_eat;
 	long			num_of_philos;
 	long long		start_time;
+	t_died			death;
 }					t_data;
 
 typedef struct s_fork
