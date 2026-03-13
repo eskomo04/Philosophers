@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2026/03/04 04:37:22 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/09 03:44:17 by eskomo           ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/13 00:28:51 by eskomo            #+#    #+#             */
+/*   Updated: 2026/03/13 00:28:51 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Philo.h"
-
 
 static void	destroy_mutexes(t_fork *forks, int num_of_forks)
 {
@@ -50,6 +46,11 @@ int	main(int argc, char **argv)
 	while (i < data.num_of_philos)
 		pthread_join(philo[i++].thread_id, NULL);
 	destroy_mutexes(forks, data.num_of_philos);
+	pthread_mutex_destroy(&data.death.death_mutex);
+	pthread_mutex_destroy(&data.print_mutex);
+	i = 0;
+	while (i < data.num_of_philos)
+		pthread_mutex_destroy(&philo[i++].meal_mutex);
 	free(philo);
 	free(forks);
 	return (0);
@@ -74,14 +75,19 @@ void	*monitor_function(void *philo)
 	{
 		if (i > philos->data->num_of_philos - 1)
 			i = 0;
+		pthread_mutex_lock(&philos[i].meal_mutex);
 		if (ft_get_time() - philos[i].last_meal > philos->data->time_to_die)
 		{
+			pthread_mutex_unlock(&philos[i].meal_mutex);
+			pthread_mutex_lock(&philos->data->print_mutex);
 			printf("%lld %d died\n", ft_time_ms(philos), philos[i].philo_id);
+			pthread_mutex_unlock(&philos->data->print_mutex);
 			pthread_mutex_lock(&philos->data->death.death_mutex);
 			philos->data->death.someone_died = true;
 			pthread_mutex_unlock(&philos->data->death.death_mutex);
 			break ;
 		}
+		pthread_mutex_unlock(&philos[i].meal_mutex);
 		i++;
 	}
 	return (NULL);

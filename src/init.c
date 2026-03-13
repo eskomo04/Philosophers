@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2026/03/04 06:25:54 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/09 03:20:36 by eskomo           ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/13 00:29:12 by eskomo            #+#    #+#             */
+/*   Updated: 2026/03/13 00:29:12 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +41,7 @@ void	init_philo(t_philo *philo, t_data *data, t_fork *forks)
 			% data->num_of_philos];
 		philo[i].last_meal = ft_get_time();
 		pthread_create(&philo[i].thread_id, NULL, thread_function, &philo[i]);
+		pthread_mutex_init(&philo[i].meal_mutex, NULL);
 		i++;
 	}
 }
@@ -61,4 +59,5 @@ void	init_data(t_data *data, char **arg)
 		data->num_of_times_to_eat = -1;
 	pthread_mutex_init(&data->death.death_mutex, NULL);
 	data->death.someone_died = false;
+	pthread_mutex_init(&data->print_mutex, NULL);
 }
