@@ -82,7 +82,9 @@ void	*thread_function(void *arg)
 		pthread_mutex_unlock(&philo->data->death.death_mutex);
 		eat(philo);
 		sleep_philo(philo);
-		// think(philo);
+		pthread_mutex_lock(&philo->data->print_mutex);
+		printf("%lld %d is thinking\n", ft_time_ms(philo), philo->philo_id);
+		pthread_mutex_unlock(&philo->data->print_mutex);
 	}
 	return (NULL);
 }
