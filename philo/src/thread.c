@@ -47,24 +47,14 @@ static void	odd_left_fork_first(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {
-	if(philo->data->num_of_philos == 1)
-	{
-		pthread_mutex_lock(&philo->left_fork->fork_mutex);
-		pthread_mutex_lock(&philo->data->print_mutex);
-		printf("%lld %d has taken a fork\n", ft_time_ms(philo), philo->philo_id);
-		pthread_mutex_unlock(&philo->data->print_mutex);
-		usleep(philo->data->time_to_die * 1000);
-		pthread_mutex_unlock(&philo->left_fork->fork_mutex);
-		return ;
-	}
 	if (philo->philo_id % 2 == 0)
 		evan_right_fork_first(philo);
 	else
 		odd_left_fork_first(philo);
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = ft_get_time();
-	pthread_mutex_unlock(&philo->meal_mutex);
 	philo->meals++;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("%lld %d is eating\n", ft_time_ms(philo), philo->philo_id);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -73,29 +63,48 @@ static void	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->right_fork->fork_mutex);
 }
 
+static void	think_philo(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->print_mutex);
+	printf("%lld %d is thinking\n", ft_time_ms(philo), philo->philo_id);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+}
+
+static void *one_philo(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->left_fork->fork_mutex);
+	pthread_mutex_lock(&philo->data->print_mutex);
+	printf("%lld %d has taken a fork\n", ft_time_ms(philo), philo->philo_id);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+	usleep(philo->data->time_to_die * 1000);
+	pthread_mutex_unlock(&philo->left_fork->fork_mutex);
+	return (NULL);
+}
+
 void	*thread_function(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->data->num_of_philos == 1)
+		return (one_philo(philo));
 	while (1)
 	{
-
-		if (philo->data->num_of_times_to_eat > 0
-			&& (philo->data->num_of_times_to_eat <= philo->meals))
-			break ;
-		eat(philo);
 		pthread_mutex_lock(&philo->data->death.death_mutex);
 		if (philo->data->death.someone_died)
 		{
 			pthread_mutex_unlock(&philo->data->death.death_mutex);
 			break ;
 		}
+		if (philo->data->death.philos_full)
+		{
+			pthread_mutex_unlock(&philo->data->death.death_mutex);
+			break ;
+		}
+		eat(philo);
 		pthread_mutex_unlock(&philo->data->death.death_mutex);
 		sleep_philo(philo);
-		pthread_mutex_lock(&philo->data->print_mutex);
-		printf("%lld %d is thinking\n", ft_time_ms(philo), philo->philo_id);
-		pthread_mutex_unlock(&philo->data->print_mutex);
+		think_philo(philo);
 	}
 	return (NULL);
 }

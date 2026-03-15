@@ -24,6 +24,7 @@ typedef struct s_died
 {
 	pthread_mutex_t death_mutex;
 	bool someone_died;
+	bool philos_full;
 } t_died;
 
 typedef struct s_data
