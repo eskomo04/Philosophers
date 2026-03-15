@@ -47,6 +47,16 @@ static void	odd_left_fork_first(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {
+	if(philo->data->num_of_philos == 1)
+	{
+		pthread_mutex_lock(&philo->left_fork->fork_mutex);
+		pthread_mutex_lock(&philo->data->print_mutex);
+		printf("%lld %d has taken a fork\n", ft_time_ms(philo), philo->philo_id);
+		pthread_mutex_unlock(&philo->data->print_mutex);
+		usleep(philo->data->time_to_die * 1000);
+		pthread_mutex_unlock(&philo->left_fork->fork_mutex);
+		return ;
+	}
 	if (philo->philo_id % 2 == 0)
 		evan_right_fork_first(philo);
 	else
@@ -70,9 +80,11 @@ void	*thread_function(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
+
 		if (philo->data->num_of_times_to_eat > 0
 			&& (philo->data->num_of_times_to_eat <= philo->meals))
 			break ;
+		eat(philo);
 		pthread_mutex_lock(&philo->data->death.death_mutex);
 		if (philo->data->death.someone_died)
 		{
@@ -80,7 +92,6 @@ void	*thread_function(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->data->death.death_mutex);
-		eat(philo);
 		sleep_philo(philo);
 		pthread_mutex_lock(&philo->data->print_mutex);
 		printf("%lld %d is thinking\n", ft_time_ms(philo), philo->philo_id);

@@ -37,11 +37,12 @@ void	init_philo(t_philo *philo, t_data *data, t_fork *forks)
 		philo[i].meals = 0;
 		philo[i].data = data;
 		philo[i].left_fork = &forks[i];
-		philo[i].right_fork = &forks[(i - 1 + data->num_of_philos)
-			% data->num_of_philos];
+		if (data->num_of_philos > 1)
+			philo[i].right_fork = &forks[(i - 1 + data->num_of_philos)
+				% data->num_of_philos];
 		philo[i].last_meal = ft_get_time();
-		pthread_create(&philo[i].thread_id, NULL, thread_function, &philo[i]);
 		pthread_mutex_init(&philo[i].meal_mutex, NULL);
+		pthread_create(&philo[i].thread_id, NULL, thread_function, &philo[i]);
 		i++;
 	}
 }
