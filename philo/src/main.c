@@ -79,6 +79,8 @@ static bool	all_philos_full(t_philo *philo)
 {
 	int	i;
 
+	if (philo->data->num_of_times_to_eat == -1)
+		return (false);
 	i = 0;
 	while (i < philo->data->num_of_philos)
 	{

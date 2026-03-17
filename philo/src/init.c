@@ -60,5 +60,6 @@ void	init_data(t_data *data, char **arg)
 		data->num_of_times_to_eat = -1;
 	pthread_mutex_init(&data->death.death_mutex, NULL);
 	data->death.someone_died = false;
+	data->death.philos_full = false;
 	pthread_mutex_init(&data->print_mutex, NULL);
 }

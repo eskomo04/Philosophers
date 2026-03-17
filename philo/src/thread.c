@@ -84,6 +84,8 @@ static void *one_philo(t_philo *philo)
 void	*thread_function(void *arg)
 {
 	t_philo	*philo;
+	bool	someone_died;
+	bool	philos_full;
 
 	philo = (t_philo *)arg;
 	if (philo->data->num_of_philos == 1)
@@ -91,18 +93,12 @@ void	*thread_function(void *arg)
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->death.death_mutex);
-		if (philo->data->death.someone_died)
-		{
-			pthread_mutex_unlock(&philo->data->death.death_mutex);
-			break ;
-		}
-		if (philo->data->death.philos_full)
-		{
-			pthread_mutex_unlock(&philo->data->death.death_mutex);
-			break ;
-		}
-		eat(philo);
+		someone_died = philo->data->death.someone_died;
+		philos_full = philo->data->death.philos_full;
 		pthread_mutex_unlock(&philo->data->death.death_mutex);
+		if (someone_died || philos_full)
+			break ;
+		eat(philo);
 		sleep_philo(philo);
 		think_philo(philo);
 	}
