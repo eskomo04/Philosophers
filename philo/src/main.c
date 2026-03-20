@@ -32,13 +32,13 @@ int	main(int argc, char **argv)
 	int		i;
 
 	i = 0;
-	if (argc > 6 || argc < 5 || ft_atoi(argv[1]) <= 0)
-	{
-		printf("Error: Wrong number of arguments\n");
+
+	if (!check_input(argc, argv))
 		return (1);
-	}
 	philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
 	forks = malloc(sizeof(t_fork) * ft_atoi(argv[1]));
+	if (!philo || !forks)
+		return (1);
 	init_data(&data, argv);
 	init_forks(forks, ft_atoi(argv[1]));
 	init_philo(philo, &data, forks);
@@ -121,6 +121,7 @@ void	*monitor_function(void *philo)
 		}
 		pthread_mutex_unlock(&philos[i].meal_mutex);
 		i++;
+		usleep(1000);
 	}
 	return (NULL);
 }

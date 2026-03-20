@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/13 00:29:12 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/13 00:29:12 by eskomo           ###   ########.fr       */
+/*   Created: 2026/03/20 04:44:58 by eskomo            #+#    #+#             */
+/*   Updated: 2026/03/20 04:44:58 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Philo.h"
-
 
 void	init_forks(t_fork *forks, int num_of_forks)
 {
@@ -42,7 +41,12 @@ void	init_philo(t_philo *philo, t_data *data, t_fork *forks)
 				% data->num_of_philos];
 		philo[i].last_meal = ft_get_time();
 		pthread_mutex_init(&philo[i].meal_mutex, NULL);
-		pthread_create(&philo[i].thread_id, NULL, thread_function, &philo[i]);
+		if (pthread_create(&philo[i].thread_id, NULL, thread_function,
+				&philo[i]))
+		{
+			printf("Error: Thread creation failed\n");
+			return ;
+		}
 		i++;
 	}
 }
