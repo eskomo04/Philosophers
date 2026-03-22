@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 04:19:32 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/20 04:45:22 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/20 07:04:47 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ bool	check_input(int argc, char **argv)
 		printf("Error: Wrong number of arguments\n");
 		return (false);
 	}
-	else if (ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0
-		|| ft_atoi(argv[4]) < 0)
+	else if (ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0
+		|| ft_atoi(argv[4]) <= 0)
 	{
 		printf("Error: Argument must be positive\n");
 		return (false);

@@ -12,12 +12,25 @@
 
 #include "../Philo.h"
 
+void	ft_print_safe(t_philo *philo, char *message)
+{
+	pthread_mutex_lock(&philo->data->death.death_mutex);
+	if (philo->data->death.someone_died)
+	{
+		pthread_mutex_unlock(&philo->data->death.death_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->death.death_mutex);
+	pthread_mutex_lock(&philo->data->print_mutex);
+	printf("%lld %d %s\n", ft_time_ms(philo), philo->philo_id, message);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+	return ;
+}
+
 static void *one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
-	pthread_mutex_lock(&philo->data->print_mutex);
-	printf("%lld %d has taken a fork\n", ft_time_ms(philo), philo->philo_id);
-	pthread_mutex_unlock(&philo->data->print_mutex);
+	ft_print_safe(philo, "has taken a fork");
 	usleep(philo->data->time_to_die * 1000);
 	pthread_mutex_unlock(&philo->left_fork->fork_mutex);
 	return (NULL);
@@ -46,12 +59,14 @@ void	*thread_function(void *arg)
 		return (one_philo(philo));
 	while (1)
 	{
+		pthread_mutex_lock(&philo->meal_mutex);
 		if (philo->data->num_of_times_to_eat != -1
 			&& philo->meals >= philo->data->num_of_times_to_eat)
 		{
 			pthread_mutex_unlock(&philo->meal_mutex);
 			break ;
 		}
+		pthread_mutex_unlock(&philo->meal_mutex);
 		eat(philo);
 		if (someone_died_or_full(philo))
 			break ;

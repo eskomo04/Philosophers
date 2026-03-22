@@ -73,6 +73,7 @@ void	init_data(t_data *data, char **arg);
 
 // thread.c
 void	*thread_function(void *arg);
+void	ft_print_safe(t_philo *philo, char *message);
 
 // checker.c
 bool	check_input(int argc, char **argv);
@@ -81,5 +82,6 @@ bool	check_input(int argc, char **argv);
 void	sleep_philo(t_philo *philo);
 void	eat(t_philo *philo);
 void	think_philo(t_philo *philo);
+bool	someone_died_or_full(t_philo *philo);
 
 #endif

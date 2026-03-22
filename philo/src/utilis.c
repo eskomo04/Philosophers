@@ -44,7 +44,6 @@ int	ft_atoi(char *s)
 	return (result * sign);
 }
 
-
 long long	ft_get_time(void)
 {
 	struct timeval	tv;
