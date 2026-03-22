@@ -59,12 +59,12 @@ typedef struct s_philo
 
 // main.c
 void	monitoring(t_philo *philo);
-void	*monitor_function(void *philo);
 
 // utilis.c
-int		ft_atoi(char *s);
-long long	ft_time_ms(t_philo *philo);
 long long	ft_get_time(void);
+long long	ft_time_ms(t_philo *philo);
+int		ft_atoi(char *s);
+void	ft_safe_usleep(long total_time_ms, t_philo *philo);
 
 // init.c
 void	init_forks(t_fork *forks, int num_of_forks);
@@ -83,5 +83,8 @@ void	sleep_philo(t_philo *philo);
 void	eat(t_philo *philo);
 void	think_philo(t_philo *philo);
 bool	someone_died_or_full(t_philo *philo);
+
+// monitoring.c
+void	monitoring(t_philo *philo);
 
 #endif

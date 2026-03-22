@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 04:26:17 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/22 04:19:06 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/22 05:12:28 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sleep_philo(t_philo *philo)
 {
 	ft_print_safe(philo, "is sleeping");
-	usleep(philo->data->time_to_sleep * 1000);
+	ft_safe_usleep(philo->data->time_to_sleep, philo);
 }
 
 static void	evan_right_fork_first(t_philo *philo)
@@ -59,7 +59,7 @@ void	eat(t_philo *philo)
 	philo->meals++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	ft_print_safe(philo, "is eating");
-	usleep(philo->data->time_to_eat * 1000);
+	ft_safe_usleep(philo->data->time_to_eat, philo);
 	pthread_mutex_unlock(&philo->left_fork->fork_mutex);
 	pthread_mutex_unlock(&philo->right_fork->fork_mutex);
 }

@@ -27,11 +27,11 @@ void	ft_print_safe(t_philo *philo, char *message)
 	return ;
 }
 
-static void *one_philo(t_philo *philo)
+static void	*one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
 	ft_print_safe(philo, "has taken a fork");
-	usleep(philo->data->time_to_die * 1000);
+	ft_safe_usleep(philo->data->time_to_die, philo);
 	pthread_mutex_unlock(&philo->left_fork->fork_mutex);
 	return (NULL);
 }

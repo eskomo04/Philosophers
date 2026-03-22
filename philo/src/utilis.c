@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 04:42:36 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/08 06:35:52 by eskomo           ###   ########.fr       */
+/*   Created: 2026/03/22 06:23:49 by eskomo            #+#    #+#             */
+/*   Updated: 2026/03/22 06:23:49 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,14 @@ long long	ft_time_ms(t_philo *philo)
 
 	time_ms = ft_get_time() - philo->data->start_time;
 	return (time_ms);
+}
+
+void	ft_safe_usleep(long total_time_ms, t_philo *philo)
+{
+	long long	start;
+
+	start = ft_get_time();
+	while (ft_get_time() - start < total_time_ms
+		&& !someone_died_or_full(philo))
+		usleep(100);
 }
