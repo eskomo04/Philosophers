@@ -4,7 +4,8 @@ NAME = philo
 
 CFLAGS = -Wall -Werror -Wextra
 
-SRCS = src/init.c src/utilis.c src/thread.c src/main.c src/checker.c src/threads_utilis.c src/monitoring.c
+SRCS = src/init.c src/utilis.c src/thread.c src/main.c src/checker.c \
+	src/threads_utilis.c src/monitoring.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

@@ -67,5 +67,5 @@ void	ft_safe_usleep(long total_time_ms, t_philo *philo)
 	start = ft_get_time();
 	while (ft_get_time() - start < total_time_ms
 		&& !someone_died_or_full(philo))
-		usleep(100);
+		usleep(10);
 }

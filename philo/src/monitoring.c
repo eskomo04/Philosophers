@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 04:35:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/22 04:38:33 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/24 05:32:19 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	*someone_died(t_philo *philo, int i)
 {
-	ft_print_safe(&philo[i], "died");
 	pthread_mutex_lock(&philo->data->death.death_mutex);
 	philo->data->death.someone_died = true;
 	pthread_mutex_unlock(&philo->data->death.death_mutex);
+	ft_print_safe(&philo[i], "died");
 	return (NULL);
 }
 

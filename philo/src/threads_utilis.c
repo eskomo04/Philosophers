@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 04:26:17 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/22 05:12:28 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/24 05:49:05 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,42 +18,49 @@ void	sleep_philo(t_philo *philo)
 	ft_safe_usleep(philo->data->time_to_sleep, philo);
 }
 
-static void	evan_right_fork_first(t_philo *philo)
+static bool	evan_right_fork_first(t_philo *philo)
 {
 	if (someone_died_or_full(philo))
-		return ;
+		return (false);
 	pthread_mutex_lock(&philo->right_fork->fork_mutex);
 	ft_print_safe(philo, "has taken a fork");
 	if (someone_died_or_full(philo))
 	{
 		pthread_mutex_unlock(&philo->right_fork->fork_mutex);
-		return ;
+		return (false);
 	}
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
 	ft_print_safe(philo, "has taken a fork");
+	return (true);
 }
 
-static void	odd_left_fork_first(t_philo *philo)
+static bool	odd_left_fork_first(t_philo *philo)
 {
 	if (someone_died_or_full(philo))
-		return ;
+		return (false);
 	pthread_mutex_lock(&philo->left_fork->fork_mutex);
 	ft_print_safe(philo, "has taken a fork");
 	if (someone_died_or_full(philo))
 	{
 		pthread_mutex_unlock(&philo->left_fork->fork_mutex);
-		return ;
+		return (false);
 	}
 	pthread_mutex_lock(&philo->right_fork->fork_mutex);
 	ft_print_safe(philo, "has taken a fork");
+	return (true);
 }
 
 void	eat(t_philo *philo)
 {
+	bool	success;
+
+	success = false;
 	if (philo->philo_id % 2 == 0)
-		evan_right_fork_first(philo);
+		success = evan_right_fork_first(philo);
 	else
-		odd_left_fork_first(philo);
+		success = odd_left_fork_first(philo);
+	if (!success)
+		return ;
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = ft_get_time();
 	philo->meals++;
