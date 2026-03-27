@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 04:35:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/27 03:19:30 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/27 04:19:11 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ static void	*monitor_function(void *philo)
 			break ;
 		}
 		pthread_mutex_lock(&philos[i].meal_mutex);
-		if (ft_get_time() - philos[i].last_meal > philos->data->time_to_die)
-			return (pthread_mutex_unlock(&philos[i].meal_mutex),
-				someone_died(philos, i));
+		if (philos->data->num_of_times_to_eat == -1
+			|| philos[i].meals < philos->data->num_of_times_to_eat)
+			if (ft_get_time() - philos[i].last_meal > philos->data->time_to_die)
+				return (pthread_mutex_unlock(&philos[i].meal_mutex),
+					someone_died(philos, i));
 		pthread_mutex_unlock(&philos[i].meal_mutex);
 		i++;
 	}

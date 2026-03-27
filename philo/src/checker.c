@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 04:19:32 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/26 03:38:06 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/27 03:40:48 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static bool	check_max_int(char *str)
 	}
 	return (true);
 }
-
 
 bool	check_input(int argc, char **argv)
 {
