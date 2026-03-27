@@ -12,18 +12,38 @@
 
 #include "../Philo.h"
 
+static bool	someone_died_or_full_locked(t_philo *philo)
+{
+	bool	someone_died;
+	bool	philos_full;
+
+	someone_died = philo->data->death.someone_died;
+	philos_full = philo->data->death.philos_full;
+	if (someone_died || philos_full)
+		return (true);
+	return (false);
+}
+
+bool	someone_died_or_full(t_philo *philo)
+{
+	bool	result;
+
+	pthread_mutex_lock(&philo->data->death.print_mutex);
+	result = someone_died_or_full_locked(philo);
+	pthread_mutex_unlock(&philo->data->death.print_mutex);
+	return (result);
+}
+
 void	ft_print_safe(t_philo *philo, char *message)
 {
-	pthread_mutex_lock(&philo->data->death.death_mutex);
-	if (philo->data->death.someone_died)
+	pthread_mutex_lock(&philo->data->death.print_mutex);
+	if (someone_died_or_full_locked(philo))
 	{
-		pthread_mutex_unlock(&philo->data->death.death_mutex);
+		pthread_mutex_unlock(&philo->data->death.print_mutex);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->data->death.death_mutex);
-	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("%lld %d %s\n", ft_time_ms(philo), philo->philo_id, message);
-	pthread_mutex_unlock(&philo->data->print_mutex);
+	pthread_mutex_unlock(&philo->data->death.print_mutex);
 	return ;
 }
 
@@ -34,20 +54,6 @@ static void	*one_philo(t_philo *philo)
 	ft_safe_usleep(philo->data->time_to_die, philo);
 	pthread_mutex_unlock(&philo->left_fork->fork_mutex);
 	return (NULL);
-}
-
-bool	someone_died_or_full(t_philo *philo)
-{
-	bool	someone_died;
-	bool	philos_full;
-
-	pthread_mutex_lock(&philo->data->death.death_mutex);
-	someone_died = philo->data->death.someone_died;
-	philos_full = philo->data->death.philos_full;
-	pthread_mutex_unlock(&philo->data->death.death_mutex);
-	if (someone_died || philos_full)
-		return (true);
-	return (false);
 }
 
 void	*thread_function(void *arg)

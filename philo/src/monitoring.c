@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 04:35:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/24 05:32:19 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/03/27 03:19:30 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	*someone_died(t_philo *philo, int i)
 {
-	pthread_mutex_lock(&philo->data->death.death_mutex);
+	pthread_mutex_lock(&philo->data->death.print_mutex);
 	philo->data->death.someone_died = true;
-	pthread_mutex_unlock(&philo->data->death.death_mutex);
-	ft_print_safe(&philo[i], "died");
+	printf("%lld %d died\n", ft_time_ms(&philo[i]), philo[i].philo_id);
+	pthread_mutex_unlock(&philo->data->death.print_mutex);
 	return (NULL);
 }
 
@@ -55,9 +55,9 @@ static void	*monitor_function(void *philo)
 			i = 0;
 		if (all_philos_full(philos))
 		{
-			pthread_mutex_lock(&philos->data->death.death_mutex);
+			pthread_mutex_lock(&philos->data->death.print_mutex);
 			philos->data->death.philos_full = true;
-			pthread_mutex_unlock(&philos->data->death.death_mutex);
+			pthread_mutex_unlock(&philos->data->death.print_mutex);
 			break ;
 		}
 		pthread_mutex_lock(&philos[i].meal_mutex);

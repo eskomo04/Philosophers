@@ -51,8 +51,7 @@ int	main(int argc, char **argv)
 	while (i < data.num_of_philos)
 		pthread_join(philo[i++].thread_id, NULL);
 	destroy_mutexes(forks, data.num_of_philos);
-	pthread_mutex_destroy(&data.death.death_mutex);
-	pthread_mutex_destroy(&data.print_mutex);
+	pthread_mutex_destroy(&data.death.print_mutex);
 	i = 0;
 	while (i < data.num_of_philos)
 		pthread_mutex_destroy(&philo[i++].meal_mutex);

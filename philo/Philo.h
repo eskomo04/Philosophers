@@ -23,14 +23,13 @@
 
 typedef struct s_died
 {
-	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	print_mutex;
 	bool			someone_died;
 	bool			philos_full;
 }			t_died;
 
 typedef struct s_data
 {
-	pthread_mutex_t	print_mutex;
 	t_died			death;
 	long long		start_time;
 	long			time_to_die;
