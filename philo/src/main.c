@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/13 00:28:51 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/13 00:28:51 by eskomo           ###   ########.fr       */
+/*   Created: 2026/04/03 05:09:03 by eskomo            #+#    #+#             */
+/*   Updated: 2026/04/03 05:09:03 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ static void	destroy_mutexes(t_fork *forks, int num_of_forks)
 	}
 }
 
+static void	clean_up(t_philo *philo, t_fork *forks, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	destroy_mutexes(forks, data->num_of_philos);
+	pthread_mutex_destroy(&data->death.print_mutex);
+	while (i < data->num_of_philos)
+		pthread_mutex_destroy(&philo[i++].meal_mutex);
+	free(philo);
+	free(forks);
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo	*philo;
@@ -31,7 +44,6 @@ int	main(int argc, char **argv)
 	t_fork	*forks;
 	int		i;
 
-	i = 0;
 	if (!check_input(argc, argv))
 		return (1);
 	philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
@@ -50,12 +62,6 @@ int	main(int argc, char **argv)
 	monitoring(philo);
 	while (i < data.num_of_philos)
 		pthread_join(philo[i++].thread_id, NULL);
-	destroy_mutexes(forks, data.num_of_philos);
-	pthread_mutex_destroy(&data.death.print_mutex);
-	i = 0;
-	while (i < data.num_of_philos)
-		pthread_mutex_destroy(&philo[i++].meal_mutex);
-	free(philo);
-	free(forks);
+	clean_up(philo, forks, &data);
 	return (0);
 }

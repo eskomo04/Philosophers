@@ -2,24 +2,27 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   Philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/20 04:24:48 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/20 04:24:48 by eskomo           ###   ########.fr       */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
+/*   Created: 2026/04/03 03:27:57 by eskomo            #+#    #+#             */
+/*   Updated: 2026/04/03 03:27:57 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <limits.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <limits.h>
 
 typedef struct s_died
 {
@@ -30,20 +33,20 @@ typedef struct s_died
 
 typedef struct s_data
 {
-	t_died			death;
-	long long		start_time;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	long			num_of_times_to_eat;
-	long			num_of_philos;
-}			t_data;
+	long long	start_time;
+	t_died		death;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		num_of_times_to_eat;
+	long		num_of_philos;
+}		t_data;
 
 typedef struct s_fork
 {
 	pthread_mutex_t	fork_mutex;
 	int				fork_id;
-}			t_fork;
+}		t_fork;
 
 typedef struct s_philo
 {
@@ -55,16 +58,18 @@ typedef struct s_philo
 	t_fork			*left_fork;
 	t_fork			*right_fork;
 	t_data			*data;
-}			t_philo;
+}		t_philo;
 
 // main.c
 void	monitoring(t_philo *philo);
 
 // utilis.c
+void	ft_safe_usleep(long total_time_ms, t_philo *philo);
+int ft_atoi(char *s);
+
 long long	ft_get_time(void);
 long long	ft_time_ms(t_philo *philo);
-int		ft_atoi(char *s);
-void	ft_safe_usleep(long total_time_ms, t_philo *philo);
+
 
 // init.c
 void	init_forks(t_fork *forks, int num_of_forks);
@@ -85,6 +90,7 @@ void	think_philo(t_philo *philo);
 bool	someone_died_or_full(t_philo *philo);
 
 // monitoring.c
+void	monitoring(t_philo *philo);
 void	monitoring(t_philo *philo);
 
 #endif

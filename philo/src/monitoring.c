@@ -6,7 +6,7 @@
 /*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 04:35:46 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/27 04:19:11 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/04/03 04:10:27 by eskomo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ static bool	all_philos_full(t_philo *philo)
 	return (true);
 }
 
+static void	set_philos_full(t_philo *philos)
+{
+	pthread_mutex_lock(&philos->data->death.print_mutex);
+	philos->data->death.philos_full = true;
+	pthread_mutex_unlock(&philos->data->death.print_mutex);
+}
+
 static void	*monitor_function(void *philo)
 {
 	t_philo	*philos;
@@ -55,9 +62,7 @@ static void	*monitor_function(void *philo)
 			i = 0;
 		if (all_philos_full(philos))
 		{
-			pthread_mutex_lock(&philos->data->death.print_mutex);
-			philos->data->death.philos_full = true;
-			pthread_mutex_unlock(&philos->data->death.print_mutex);
+			set_philos_full(philos);
 			break ;
 		}
 		pthread_mutex_lock(&philos[i].meal_mutex);
