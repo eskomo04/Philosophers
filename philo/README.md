@@ -1,5 +1,24 @@
 *This project has been created as part of the 42 curriculum by eskomo*
 
+
+---
+- [Structure](#structure)
+- [Descreption](#description)
+	- [Dining Philosophers Problem](#dining-philosophers-problem)
+	- [Chalanges](#the-chalange)
+		- [Deadlocks](#deadlocks)
+		- [Data Race](#data-races)
+		- [Threads](#threads)
+		- [Mutexes](#mutex)
+	- [Rules](#rules)
+	- [Command line arguments](#command-line-arguments)
+	- [Implemention logic](#implementation-logic)
+- [Instructions](#instructions)
+	- [Run](#run)
+		- [Clean](#clean)
+- [Resources](#resources)
+	- [AI useing](#use-of-ai)
+
 ---
 # Structure
 	philo/
@@ -14,7 +33,7 @@
 		├── monitoring.c
 		├── threads_utilis.c
 		└── utilis.c
-	
+
 ---
 # Description
 
@@ -51,7 +70,7 @@ It is a permanent **frozen** state where no progress can be made.
 Definition: a data race happens when two or more threads (separate worker in a program) try to access the same piece of data at the exact same time and trying to change/read it.
 
 ### Threads
-Definition: a thread is a single "worker" or a "path of execution" inside a program. 
+Definition: a thread is a single "worker" or a "path of execution" inside a program.
 While a process is the entire container for a running program, threads are the smaller units inside that process that actually do the work.
 
 ### Mutex
@@ -95,6 +114,9 @@ timestamp_in_ms X died
 
 All arguments must be positive integers.
 
+## Implementation logic
+Each philosopher runs in its own **thread**. A dedector **monitor thread** runs in parallel while continuously checking whether any philosopher has exceeded their `time_to_die` or whether all philosophers have eaten enough.
+
 ---
 # Instructions
 
@@ -107,27 +129,40 @@ after clone:
 ```
 
 ```bash
-# 5 philosophers, should never die
+# 5 philosophers, all philos should never die
 ./philo 5 800 200 200
- 
+
 # 5 philosophers, each eats 7 times then simulation ends
 ./philo 5 800 200 200 7
- 
+
 # 4 philosophers, should never die
 ./philo 4 410 200 200
- 
+
 # 1 philosopher, will die (only one fork available)
 ./philo 1 800 200 200
- 
+
 # One philo should die, time_to_die too short
 ./philo 5 400 200 200
 ```
 
+---
 ### Clean
 ```
 	make clean	remove objects files
 	make fclean	//remove objects and binary
 	make re		//rebuild everything
 ```
+---
+# Resources
 
+- [A guid into the project](https://medium.com/@denaelgammal/dining-philosophers-problem-42-project-guide-mandatory-part-a20fb8dc530e)
+- [What are Threads, Mutex, and concurrent programming? Simply](https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/)
+- [Foundational intro into: Multithreading in C](https://www.geeksforgeeks.org/c/multithreading-in-c/)
+- [Recommended playlist](https://www.youtube.com/playlist?list=PLGU1kcPKHMKi41Py2kqxdvqYE3M9VhCHe)
+- [Vizualizer for logs message](https://nafuka11.github.io/philosophers-visualizer/)
 
+---
+## Use of AI:
+I have been using AI for the following case:
+- Learning tool to understand concepts.
+- and Debuging issues like: data races, memory leaks, and deadlocks.

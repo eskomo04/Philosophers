@@ -60,6 +60,7 @@ int	main(int argc, char **argv)
 	init_forks(forks, ft_atoi(argv[1]));
 	init_philo(philo, &data, forks);
 	monitoring(philo);
+	i = 0;
 	while (i < data.num_of_philos)
 		pthread_join(philo[i++].thread_id, NULL);
 	clean_up(philo, forks, &data);
