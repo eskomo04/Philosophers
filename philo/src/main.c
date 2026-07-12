@@ -46,19 +46,8 @@ int	main(int argc, char **argv)
 
 	if (!check_input(argc, argv))
 		return (1);
-	philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
-	forks = malloc(sizeof(t_fork) * ft_atoi(argv[1]));
-	if (!philo || !forks)
-	{
-		if (philo)
-			free(philo);
-		if (forks)
-			free(forks);
+	if (!setup(&philo, &data, &forks, argv))
 		return (1);
-	}
-	init_data(&data, argv);
-	init_forks(forks, ft_atoi(argv[1]));
-	init_philo(philo, &data, forks);
 	monitoring(philo);
 	i = 0;
 	while (i < data.num_of_philos)

@@ -66,3 +66,21 @@ void	init_data(t_data *data, char **arg)
 	data->death.philos_full = false;
 	pthread_mutex_init(&data->death.print_mutex, NULL);
 }
+
+int	setup(t_philo **philo, t_data *data, t_fork **forks, char **argv)
+{
+	*philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
+	*forks = malloc(sizeof(t_fork) * ft_atoi(argv[1]));
+	if (!*philo || !*forks)
+	{
+		if (*philo)
+			free(*philo);
+		if (*forks)
+			free(*forks);
+		return (0);
+	}
+	init_data(data, argv);
+	init_forks(*forks, ft_atoi(argv[1]));
+	init_philo(*philo, data, *forks);
+	return (1);
+}

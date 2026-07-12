@@ -75,6 +75,7 @@ long long	ft_time_ms(t_philo *philo);
 void	init_forks(t_fork *forks, int num_of_forks);
 void	init_philo(t_philo *philo, t_data *data, t_fork *forks);
 void	init_data(t_data *data, char **arg);
+int		setup(t_philo **philo, t_data *data, t_fork **forks, char **argv);
 
 // thread.c
 void	*thread_function(void *arg);
