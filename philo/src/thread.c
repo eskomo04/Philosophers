@@ -68,8 +68,8 @@ void	*thread_function(void *arg)
 		eat(philo);
 		if (someone_died_or_full(philo))
 			break ;
-		ft_print_safe(philo, "is sleeping");	// Print sleeping message
-		ft_safe_usleep(philo->data->time_to_sleep, philo);// Sleep for the specified time.
+		ft_print_safe(philo, "is sleeping");
+		ft_safe_usleep(philo->data->time_to_sleep, philo);
 		if (someone_died_or_full(philo))
 			break ;
 		think_philo(philo);
