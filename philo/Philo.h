@@ -60,9 +60,6 @@ typedef struct s_philo
 	t_data			*data;
 }		t_philo;
 
-// main.c
-void	monitoring(t_philo *philo);
-
 // utilis.c
 void	ft_safe_usleep(long total_time_ms, t_philo *philo);
 int ft_atoi(char *s);
@@ -85,13 +82,11 @@ void	ft_print_safe(t_philo *philo, char *message);
 bool	check_input(int argc, char **argv);
 
 // threads_utilis.c
-void	sleep_philo(t_philo *philo);
 void	eat(t_philo *philo);
 void	think_philo(t_philo *philo);
 bool	someone_died_or_full(t_philo *philo);
+int		should_stop_eating(t_philo *philo);
 
 // monitoring.c
 void	monitoring(t_philo *philo);
-void	monitoring(t_philo *philo);
-
 #endif

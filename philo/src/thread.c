@@ -63,20 +63,13 @@ void	*thread_function(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->data->num_of_philos == 1)
 		return (one_philo(philo));
-	while (1)
+	while (!should_stop_eating(philo))
 	{
-		pthread_mutex_lock(&philo->meal_mutex);
-		if (philo->data->num_of_times_to_eat != -1
-			&& philo->meals >= philo->data->num_of_times_to_eat)
-		{
-			pthread_mutex_unlock(&philo->meal_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->meal_mutex);
 		eat(philo);
 		if (someone_died_or_full(philo))
 			break ;
-		sleep_philo(philo);
+		ft_print_safe(philo, "is sleeping");	// Print sleeping message
+		ft_safe_usleep(philo->data->time_to_sleep, philo);// Sleep for the specified time.
 		if (someone_died_or_full(philo))
 			break ;
 		think_philo(philo);

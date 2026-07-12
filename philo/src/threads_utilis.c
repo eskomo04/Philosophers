@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   threads_utilis.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eskomo <eskomo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: essia <essia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 04:26:17 by eskomo            #+#    #+#             */
-/*   Updated: 2026/03/24 05:49:05 by eskomo           ###   ########.fr       */
+/*   Updated: 2026/07/12 18:21:02 by essia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Philo.h"
-
-void	sleep_philo(t_philo *philo)
-{
-	ft_print_safe(philo, "is sleeping");
-	ft_safe_usleep(philo->data->time_to_sleep, philo);
-}
 
 static bool	evan_right_fork_first(t_philo *philo)
 {
@@ -74,4 +68,15 @@ void	eat(t_philo *philo)
 void	think_philo(t_philo *philo)
 {
 	ft_print_safe(philo, "is thinking");
+}
+
+int	should_stop_eating(t_philo *philo)
+{
+	int	stop;
+
+	pthread_mutex_lock(&philo->meal_mutex);
+	stop = (philo->data->num_of_times_to_eat != -1
+			&& philo->meals >= philo->data->num_of_times_to_eat);
+	pthread_mutex_unlock(&philo->meal_mutex);
+	return (stop);
 }
